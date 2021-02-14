@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container-lg py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Operacion</th>
+							<th>Nombre</th>
+							<th>Serial SKU</th>
+							<th>Precio Costo</th>
+							<th>Cantidad</th>
+							<th>Total</th>
+							<th>Stock</th>
+							<th  sec:authorize="hasRole('ROLE_ADMIN')" >Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="itemKardex: ${productosKardex}">
+							<td th:text="${itemKardex.fechaRegistro}"></td>
+							<td th:text="${itemKardex.tipoOperacion}"></td>
+							<td><a 	th:href="@{/kardex/form/} + ${itemKardex.producto.id}" th:text="${itemKardex.producto.nombre}"></a></td>
+							<td th:text="${itemKardex.producto.skuNumber}"></td>
+							<td th:text="${itemKardex.precioDeCosto}"></td>
+							<td th:text="${itemKardex.cantidadMovimiento}"></td>
+							<td th:text="${itemKardex.valorTotalDeCosto}"></td>
+							<td th:text="${itemKardex.saldoCantidad}"></td>
+							<td  sec:authorize="hasRole('ROLE_ADMIN')" >
+								<a class="btn btn-danger btn-sm"
+								th:href="@{/kardex/eliminar/} + ${itemKardex.id}" th:text="'eliminar'"
+								onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
+						</tr>
+					</tbody>
+
+				</table>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

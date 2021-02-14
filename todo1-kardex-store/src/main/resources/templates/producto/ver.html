@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 sec:authorize="hasRole('ROLE_ADMIN')" class="card-title">
+					<a class="btn btn-primary"
+						th:href="@{'/producto/form/' + ${producto.id}}"
+						th:text="'crear producto'"></a>
+				</h4>
+
+				<img th:if="${producto.foto !=null and #strings.length(producto.foto) > 0}"
+					class="img-thumbnail rounded float-left mr-3" style="max-width: 25%;"
+					th:src="@{'/uploads/' + ${producto.foto}}" th:alt="${producto.foto}" />
+
+				<ul class="list-group">
+					<li class="list-group-item active" th:text="${producto.nombre}"></li>
+					<li class="list-group-item" th:text="${producto.descripcion}"></li>
+					<li class="list-group-item" th:text="'SKU Serial: ' + ${producto.skuNumber}"></li>
+					<li class="list-group-item" th:text="'Precio: $' + ${producto.precio}"></li>
+					<li class="list-group-item"><a class="btn btn-primary"
+						th:href="@{'/shopkart/add/' + ${producto.id}}"
+						th:text="'Añadir al Carrito'"></a></li>
+					
+					
+				</ul>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

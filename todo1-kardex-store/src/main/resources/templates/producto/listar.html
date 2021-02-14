@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/producto/form}" class="btn btn-primary btn-xs">Crear Producto</a>
+				</h4>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Serial Number SKU</th>
+							<th>Precio</th>
+							<th>Comprar</th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')" >Editar</th>
+							<th  sec:authorize="hasRole('ROLE_ADMIN')" >Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="producto: ${productos}">
+							<td><a 	th:href="@{/producto/ver/} + ${producto.id}" th:text="${producto.nombre}"></a></td>
+							<td th:text="${producto.skuNumber}"></td>
+							<td th:text="${producto.precio}"></td>
+							<td>
+								<a class="btn btn-success btn-sm" th:href="@{'/factura/form/' + ${producto.id}}" role="button" >
+									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16" title="Añadir">
+  										<path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"/>
+									</svg></a></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')" >
+								<a class="btn btn-primary btn-sm"
+								th:href="@{/producto/form/} + ${producto.id}" th:text="'editar'"></a></td>
+							<td  sec:authorize="hasRole('ROLE_ADMIN')" >
+								<a class="btn btn-danger btn-sm"
+								th:href="@{/producto/eliminar/} + ${producto.id}" th:text="'eliminar'"
+								onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
+						</tr>
+					</tbody>
+
+				</table>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
