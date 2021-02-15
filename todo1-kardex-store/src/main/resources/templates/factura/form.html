@@ -11,7 +11,7 @@
 			<div class="card-body">
 				<h4 class="card-title">
 					<a class="btn btn-primary"
-						th:href="@{'/ver/' + ${factura.cliente.id}}"
+						th:href="@{'/producto/'}"
 						th:text="'&laquo; volver'"></a>
 				</h4>
 
@@ -47,7 +47,8 @@
 						<label for="buscar_producto" class="col-sm-3 col-form-label"
 							th:text="'Buscador de Productos:'"></label>
 						<div class="col-sm-6">
-							<input type="text" name="buscar_producto" id="buscar_producto"  class="form-control" />
+							<input type="text" name="buscar_producto" id="buscar_producto" 
+							 class="form-control"  th:value="${productoSeleccionado!=null}? ${productoSeleccionado} : ' '"  />
 						</div>
 					</div>
 					

@@ -2,6 +2,7 @@ package com.todo1.app.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -26,6 +27,7 @@ import com.todo1.app.model.entity.Factura;
 import com.todo1.app.model.entity.ItemFactura;
 import com.todo1.app.model.entity.Producto;
 import com.todo1.app.model.service.IClienteService;
+import com.todo1.app.model.service.IProductoService;
 
 
 /**
@@ -45,6 +47,11 @@ public class FacturaController {
 
 	@Autowired
 	private IClienteService clienteService;
+	
+	@Autowired
+	private IProductoService productoService;
+	
+	
 
 	@Secured({"ROLE_USER"})
 	@GetMapping("/ver/{id}")
@@ -67,11 +74,31 @@ public class FacturaController {
 		return "factura/ver-detalle";
 	}
 	
+	/**
+	 * Crear Factura / Carro de Compras
+	 * 
+	 * @param productoId
+	 * @param model
+	 * @param flash
+	 * @param session
+	 * @return
+	 */
 	@Secured({"ROLE_USER"})
-	@GetMapping("/form/{clienteId}")
-	public String crearFactura(@PathVariable Long clienteId, Model model, RedirectAttributes flash) {
+	@GetMapping("/form/{productoId}")
+	public String crearFactura(@PathVariable Long productoId, Model model, RedirectAttributes flash, HttpSession session) {
 
-		Cliente cliente = clienteService.findOne(clienteId);
+		
+		Cliente cliente = (Cliente) session.getAttribute("usuario");
+		Producto producto;
+		try {
+			producto = productoService.findOne(productoId);
+			model.addAttribute("productoSeleccionado", producto.getNombre());
+			log.info(producto.getNombre());
+			
+		} catch (Exception e) {
+			log.error("Existio un problema con la BD", e);
+		}
+		
 		if (cliente == null) {
 			flash.addFlashAttribute("error", "El cliente no existe en la BD");
 			return "redirect:/listar";
@@ -117,13 +144,25 @@ public class FacturaController {
 		for (int i = 0; i < itemId.length; i++) {
 
 			Producto producto = clienteService.findProductoById(itemId[i]);
-			ItemFactura linea = new ItemFactura(cantidad[i], producto);
-			factura.addItemFactura(linea);
+			
+			//verifico el stock del producto
+			if (cantidad[i] <= producto.getCantidadStock()) {
+				
+				ItemFactura linea = new ItemFactura(cantidad[i], producto);
+				factura.addItemFactura(linea);
 
-			log.debug("ProductoId[i]: " + itemId[i] + " cantidad[i]: " + cantidad[i]);
+				log.debug("ProductoId[i]: " + itemId[i] + " cantidad[i]: " + cantidad[i]);
+			} else {
+				model.addAttribute("error", "La cantidad: ".concat(cantidad[i].toString()).concat(" es mayor al stock disponible del producto"));
+				return "factura/form";
+			}
 		}
 
 		clienteService.saveFactura(factura);
+		productoService.actualizarKardex(factura);
+		
+		
+		
 		status.setComplete();
 		flash.addFlashAttribute("success", "Factura fue almacenada correctamente");
 

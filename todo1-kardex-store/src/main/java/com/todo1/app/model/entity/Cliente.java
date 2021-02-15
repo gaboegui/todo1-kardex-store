@@ -62,8 +62,9 @@ public class Cliente implements Serializable {
 	@Size(min = 8)
 	@Column(length = 60)
 	private String password;
-
 	
+	@Column(columnDefinition = "boolean default true")
+	private Boolean enabled;
 
 	@Transient
 	@CreditCardNumber
@@ -91,7 +92,7 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Factura> facturas;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "usuarios_roles", 
 		joinColumns = @JoinColumn(name ="user_id" ), 
 		inverseJoinColumns = @JoinColumn(name ="role_id" ),
@@ -233,6 +234,14 @@ public class Cliente implements Serializable {
 	@Override
 	public String toString() {
 		return nombre + " " + apellido;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

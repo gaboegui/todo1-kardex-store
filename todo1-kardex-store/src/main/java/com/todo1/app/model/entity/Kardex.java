@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,14 +34,13 @@ public class Kardex implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	// Entrada, Salida, Inv. Inicial, Venta
 	@NotEmpty
 	private String tipoOperacion; 
 	
 	@ManyToOne(fetch=FetchType.LAZY) 
 	private Producto producto;
 	
-	@ManyToOne(fetch=FetchType.LAZY) 
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL) 
 	private Factura factura;
 	
 	@Temporal(TemporalType.TIMESTAMP)

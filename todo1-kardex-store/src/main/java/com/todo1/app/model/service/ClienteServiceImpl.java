@@ -110,4 +110,11 @@ public class ClienteServiceImpl implements IClienteService {
 		return clienteDao.fetchByIdWithFacturas(id);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Cliente findByUsername(String username) {
+		
+		return clienteDao.findByUsername(username);
+	}
+
 }

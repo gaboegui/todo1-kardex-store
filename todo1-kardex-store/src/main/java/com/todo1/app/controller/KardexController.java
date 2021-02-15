@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.todo1.app.OperacionKardex;
 import com.todo1.app.controller.paginator.PageRender;
 import com.todo1.app.model.entity.Kardex;
 import com.todo1.app.model.entity.Producto;
@@ -47,9 +48,6 @@ public class KardexController {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	private final static String CONST_ENTRADA = "Entrada";
-	private final static String CONST_SALIDA = "Salida";
-
 	@Autowired
 	private IKardexService kardexService;
 	
@@ -109,7 +107,7 @@ public class KardexController {
 		nuevoMovimientoKardex.setId(null);
 
 		// verifico que en la operacion de salida no se saque mas del el stock
-		if (kardex.getTipoOperacion().equals(CONST_SALIDA)) {
+		if (kardex.getTipoOperacion().equals(OperacionKardex.Salida.name())) {
 			movimiento = kardex.getSaldoCantidad() - kardex.getCantidadMovimiento();
 			if (movimiento < 0) {
 				model.addAttribute("titulo", "Error No puede registrar una salida mayor al Stock Actual");
@@ -204,7 +202,7 @@ public class KardexController {
 	 */
 	@ModelAttribute("operaciones")
 	public List<String> operaciones() {
-		return Arrays.asList(CONST_ENTRADA, CONST_SALIDA);
+		return Arrays.asList(OperacionKardex.Entrada.name(), OperacionKardex.Salida.name());
 	}
 
 }

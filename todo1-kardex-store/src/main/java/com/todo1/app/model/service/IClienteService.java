@@ -20,6 +20,8 @@ public interface IClienteService {
 	public void save(Cliente cliente);
 	
 	public void delete(Long id);
+	
+	public Cliente findByUsername(String username);
 
 	public List<Producto> findByNombre(String term); 
 	

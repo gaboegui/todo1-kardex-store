@@ -5,17 +5,16 @@ import java.nio.charset.Charset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.todo1.app.auth.handler.LoginSuccessHandler;
 
@@ -31,6 +30,10 @@ import com.todo1.app.auth.handler.LoginSuccessHandler;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter  {
+	
+	
+	@Autowired
+	private UserDetailsService usuarioService;
 	
 	/**
 	 * Encriptador de texto para datos sensibles
@@ -56,17 +59,30 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter  {
 	@Autowired
 	LoginSuccessHandler successHandler;
 	
+	@Override
+	@Bean
+	protected AuthenticationManager authenticationManager() throws Exception {
+		return super.authenticationManager();
+	}
+	
+	
 	@Autowired
-	public void configurerGlobal(AuthenticationManagerBuilder builder) throws Exception {
+	public void configurerGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		
+		// registro el servicio de autheticacion y encripto la contraseña con BCrypt utilizando nuestra funcion
+				auth.userDetailsService(this.usuarioService).passwordEncoder(passwordEncoder());
+		
+		/*
 		// utiliza BCrypt
 		PasswordEncoder encoder = passwordEncoder();
 		UserBuilder userbuilder = User.builder().passwordEncoder(password -> encoder.encode(password));
 		
 		// por el momento no se obtienen los clientes / usuarios de la base de datos
-		builder.inMemoryAuthentication()
+		auth.inMemoryAuthentication()
 		.withUser(userbuilder.username("admin").password("123").roles("ADMIN", "USER"))
 		.withUser(userbuilder.username("user").password("123").roles("USER"));
+		*/
+		
 	}
 
 

@@ -63,6 +63,9 @@ public class ProductoController {
 		model.addAttribute("productos", productos);
 		model.addAttribute("titulo", "Listado de Productos");
 		
+		//codificar cualquier string con hash 
+		//log.info(passwordEncoder.encode("123"));
+		
 		return "producto/listar";
 	}
 	

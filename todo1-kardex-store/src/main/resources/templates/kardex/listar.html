@@ -38,7 +38,7 @@
 							<td  sec:authorize="hasRole('ROLE_ADMIN')" >
 								<a class="btn btn-danger btn-sm"
 								th:href="@{/kardex/eliminar/} + ${itemKardex.id}" th:text="'eliminar'"
-								onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
+								onclick="return confirm('Estás seguro que quieres eliminar, se borrarán tambien las facturas relacionadas?');"></a></td>
 						</tr>
 					</tbody>
 
