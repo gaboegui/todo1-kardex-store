@@ -28,7 +28,7 @@
 					<li class="list-group-item" th:text="'SKU Serial: ' + ${producto.skuNumber}"></li>
 					<li class="list-group-item" th:text="'Precio: $' + ${producto.precio}"></li>
 					<li class="list-group-item"><a class="btn btn-primary"
-						th:href="@{'/shopkart/add/' + ${producto.id}}"
+						th:href="@{'/factura/form/' + ${producto.id}}"
 						th:text="'Añadir al Carrito'"></a></li>
 					
 					
