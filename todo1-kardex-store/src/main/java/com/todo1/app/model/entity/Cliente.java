@@ -77,6 +77,7 @@ public class Cliente implements Serializable {
 
 	@NotEmpty
 	@Size(min = 3)
+	@Pattern(regexp = "[0-9]{3}")
 	private String codigoSeguridadTarjeta;
 
 	@NotEmpty
