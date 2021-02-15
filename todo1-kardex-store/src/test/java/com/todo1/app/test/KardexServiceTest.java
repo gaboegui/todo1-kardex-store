@@ -1,7 +1,6 @@
 package com.todo1.app.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.Date;
