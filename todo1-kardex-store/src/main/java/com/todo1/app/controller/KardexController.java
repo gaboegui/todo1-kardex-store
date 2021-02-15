@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.todo1.app.OperacionKardex;
 import com.todo1.app.controller.paginator.PageRender;
+import com.todo1.app.enums.OperacionKardex;
 import com.todo1.app.model.entity.Kardex;
 import com.todo1.app.model.entity.Producto;
 import com.todo1.app.model.service.IKardexService;

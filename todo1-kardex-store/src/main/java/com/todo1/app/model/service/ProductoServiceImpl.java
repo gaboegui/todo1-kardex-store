@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.todo1.app.OperacionKardex;
+import com.todo1.app.enums.OperacionKardex;
 import com.todo1.app.model.entity.Factura;
 import com.todo1.app.model.entity.ItemFactura;
 import com.todo1.app.model.entity.Kardex;

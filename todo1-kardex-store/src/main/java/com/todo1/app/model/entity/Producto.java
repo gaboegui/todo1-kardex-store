@@ -120,6 +120,29 @@ public class Producto implements Serializable {
 	public void setFoto(String foto) {
 		this.foto = foto;
 	}
+
+	/**
+	 * Constructor para pruebas unitarias
+	 */
+	public Producto(String name) {
+		nombre = name;
+		precio = new BigDecimal(0);
+		descripcion = "Producto Marvel";
+		skuNumber = "AA-111";
+		cantidadStock = 1;
+		foto = "marvel.jpg";
+		createAt = new Date();
+	}
+	
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", descripcion=" + descripcion
+				+ ", skuNumber=" + skuNumber + ", cantidadStock=" + cantidadStock + ", foto=" + foto + ", createAt="
+				+ createAt + "]";
+	}
+
+	public Producto() {
+	}
 	
 	
 	

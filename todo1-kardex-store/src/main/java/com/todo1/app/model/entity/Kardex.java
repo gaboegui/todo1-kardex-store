@@ -144,6 +144,15 @@ public class Kardex implements Serializable {
 		this.observacion = observacion;
 	}
 
+	@Override
+	public String toString() {
+		return "Kardex [id=" + id + ", tipoOperacion=" + tipoOperacion + ", fechaRegistro=" + fechaRegistro
+				+ ", observacion=" + observacion + ", precioDeCosto=" + precioDeCosto + ", cantidadMovimiento="
+				+ cantidadMovimiento + ", valorTotalDeCosto=" + valorTotalDeCosto + ", saldoCantidad=" + saldoCantidad
+				+ "]";
+	}
+
+
 	private static final long serialVersionUID = 5497527819468414737L;
 
 }
