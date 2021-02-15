@@ -40,7 +40,7 @@ import com.todo1.app.model.service.IProductoService;
  * @author Gabriel Eguiguren
  *
  */
-
+@Secured({"ROLE_ADMIN"})
 @SessionAttributes("kardex")
 @Controller
 @RequestMapping(value = "/kardex")
@@ -90,7 +90,7 @@ public class KardexController {
 	 * @param status
 	 * @return
 	 */
-	@Secured("ROLE_ADMIN")
+	
 	@PostMapping("/form")
 	public String guardar(@Valid Kardex kardex, BindingResult result, Model model, RedirectAttributes flash,
 			SessionStatus status) {
@@ -138,7 +138,6 @@ public class KardexController {
 	}
 
 	
-	@Secured("ROLE_ADMIN")
 	@GetMapping("/form/{productoId}")
 	public String editar(@PathVariable Long productoId, Model model, RedirectAttributes flash) {
 
@@ -161,7 +160,6 @@ public class KardexController {
 		return "/kardex/form";
 	}
 
-	@Secured("ROLE_ADMIN")
 	@GetMapping("/form")
 	public String crear(Model model) {
 
@@ -174,7 +172,7 @@ public class KardexController {
 	}
 
 	
-	@Secured("ROLE_ADMIN")
+
 	@GetMapping("/eliminar/{id}")
 	public String eliminar(@PathVariable Long id, RedirectAttributes flash) {
 

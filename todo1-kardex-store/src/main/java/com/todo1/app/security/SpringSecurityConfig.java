@@ -69,7 +69,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter  {
 	@Autowired
 	public void configurerGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		
-		// registro el servicio de autheticacion y encripto la contraseña con BCrypt utilizando nuestra funcion
+		// registro el servicio de autheticacion con la base de datos y encripto la contraseña con BCrypt utilizando nuestra funcion
 				auth.userDetailsService(this.usuarioService).passwordEncoder(passwordEncoder());
 		
 		/*

@@ -121,18 +121,7 @@ public class Producto implements Serializable {
 		this.foto = foto;
 	}
 
-	/**
-	 * Constructor para pruebas unitarias
-	 */
-	public Producto(String name) {
-		nombre = name;
-		precio = new BigDecimal(0);
-		descripcion = "Producto Marvel";
-		skuNumber = "AA-111";
-		cantidadStock = 1;
-		foto = "marvel.jpg";
-		createAt = new Date();
-	}
+	
 	
 	@Override
 	public String toString() {
